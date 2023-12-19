@@ -1,2 +1,2 @@
 #!/bin/usr/bash
-gunicorn app:app --chdir app --reload
+gunicorn --reload app:app --chdir app 
