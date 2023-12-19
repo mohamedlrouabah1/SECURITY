@@ -39,18 +39,41 @@
         </div>
     </div>
 
-    <div class="container">
+    <div >
         Utilisation : <br />
-        L'accès à l'url '/' génère de nouvelles seed pour les codes OTP. <br />
-        Pour accéder aux otp stockés côté serveur : /server/totp ou /serveur/hotp <br />
-        Pour accéder aux otp stockés côté client : /client/totp ou /client/hotp <br />
-        Les TOTP sont mis à jour toutes les 30 secondes. <br />
+        L'accès à l'url <a href="/">'/'</a>  génère de nouvelles seed pour les codes OTP.
+        <br />
+        <br />
+        Pour accéder aux otp stockés côté serveur : 
+        <ul>
+            <li>
+                <a href="/server/totp" target="_blank" rel="noopener noreferrer"> /server/totp</a>
+            </li>
+            <li>
+                <a href="/server/hotp" target="_blank" rel="noopener noreferrer">/server/hotp</a>
+            </li>
+        </ul>
+        Pour accéder aux otp stockés côté client et QRcodes :
+        <ul>
+            <li>
+                <a href="/client/totp" target="_blank" rel="noopener noreferrer"> /client/totp</a>
+            </li>
+            <li>
+                <a href="/client/hotp" target="_blank" rel="noopener noreferrer">/client/hotp</a>
+            </li>
+        </ul>
+        Les TOTP sont mis à jour toutes les 30 secondes.
+        <br />
         <br />
 
         Les pages /client/{totp, hotp} contiennent un QRcode qui peut être scanné
-        sur une application mobile Authenticator. <br />
+        sur une application mobile Authenticator. 
+        <br />
+        <br />
         L'application <a href="https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp&hl=fr&gl=US">'freeOTP Authenticator'</a>  a été testé avec succès à cet effet. <br />
         (Nous utilisons la fonction sha-256 pour générer les mots de passe à 6 chiffres)
+        <br />
+        <br />
     </div>
 
     <script>
