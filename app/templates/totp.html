@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOTP</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"">
+</head>
+<body>
+    <h1>{{ page_title }}</h1>
+    <p>Clé secrète: {{ secret }}</p>
+    <p>Code OTP: {{ otp_code }}</p>
+    <p>Temps restant: <span id="time">{{ time }}</span></p>
+
+    {% if side == 'client' %}
+    <img src="{{ url_for('static', filename='QRcodes/TOTP_qrcode.png') }}" alt="QR Code">
+    {% endif %}
+
+    <div>
+        <a href="/">Retour</a>
+    </div>
+
+    
+    
+    
+    <script>
+        var time = '{{ time }}';
+        setInterval(function() {
+            time -= 1;
+            document.getElementById('time').innerHTML = time;
+            if (time == 0) {
+                location.reload();
+            }
+        }, 1000);
+    </script>
+    
+</body>
+</html>

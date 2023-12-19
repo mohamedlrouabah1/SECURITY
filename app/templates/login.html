@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OTP Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+
+        {% if valid is defined %}
+
+        {% if valid %}
+        <h3 style="color : green">Connexion réussie avec OTP valide!</h3>
+        {% else %}
+        <h3 style="color : red">Connexion échouée avec OTP invalide!</h3>
+        {% endif %}
+        {% endif %}
+        
+        {% if not valid %}
+        <form id="login-form">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        {% endif %}
+    </div>
+
+    <div id="otpModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <form id="otp-form">
+                <label><input type="radio" name="otpType" value="totp" checked> TOTP</label>
+                <label><input type="radio" name="otpType" value="hotp"> HOTP</label>
+                <input type="text" name="otpCode" placeholder="OTP Code" required>
+                <button type="submit">Validate OTP</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        Utilisation : <br />
+        L'accès à l'url '/' génère de nouvelles seed pour les codes OTP. <br />
+        Pour accéder aux otp stockés côté serveur : /server/totp ou /serveur/hotp <br />
+        Pour accéder aux otp stockés côté client : /client/totp ou /client/hotp <br />
+        Les TOTP sont mis à jour toutes les 30 secondes. <br />
+        <br />
+
+        Les pages /client/{totp, hotp} contiennent un QRcode qui peut être scanné
+        sur une application mobile Authenticator. <br />
+        L'application <a href="https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp&hl=fr&gl=US">'freeOTP Authenticator'</a>  a été testé avec succès à cet effet. <br />
+        (Nous utilisons la fonction sha-256 pour générer les mots de passe à 6 chiffres)
+    </div>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('otpModal').style.display = 'block';
+        });
+
+        document.getElementById('otp-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            var otpType = document.querySelector('input[name="otpType"]:checked').value;
+            var otpCode = this.otpCode.value;
+            window.location.href = `/validate-otp?otpType=${otpType}&otpCode=${otpCode}`;
+        });
+
+        document.getElementsByClassName('close')[0].onclick = function() {
+            document.getElementById('otpModal').style.display = 'none';
+        };
+    </script>
+</body>
+</html>

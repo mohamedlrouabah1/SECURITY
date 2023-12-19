@@ -25,11 +25,18 @@ user_secrets['user1'] = {
 
 @app.route('/')
 def home():
+    generate_otp_qrcode('user1')
     return redirect('/login')
 
 @app.route('/favicon.ico')
 def favicon():
     return app.send_static_file('img/favicon.ico')
+
+# all exeptions
+@app.errorhandler(Exception)
+def handle_error(error):
+    # Code pour gérer l'erreur et afficher une page d'erreur personnalisée
+    return render_template('error.html', error=error), 500
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -38,8 +45,6 @@ def login():
         return jsonify({'status': 'success'})
 
     print(f"login with method : {request.method}")
-
-    generate_otp_qrcode('user1')
 
     return render_template(f'login.html')
 
@@ -83,9 +88,9 @@ def validate_otp():
 def increment_counter():
     user = session.get('username', 'user1')
     user_secrets[user]['HOTP_counter'] += 1
-    return redirect('/client-side-hotp')
+    return redirect('/client/hotp')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
     

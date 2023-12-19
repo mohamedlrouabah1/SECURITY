@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOTP</title>
+</head>
+<body>
+    <h1>{{ page_title }}</h1>
+    <p>Clé secrète: {{ secret }}</p>
+    <p>Compteur: {{ counter }}</p>
+    <p>Code OTP: {{ otp_code }}</p>
+    <a href="/">Retour</a>
+
+    {% if side == 'client' %}
+    <img src="{{ url_for('static', filename='QRcodes/HOTP_qrcode.png') }}" alt="QR Code">
+
+
+    <form action="/increment-counter">
+        <button type="submit">Incrémenter le compteur</button>
+    </form>
+    {% endif %}
+</body>
+</html>
