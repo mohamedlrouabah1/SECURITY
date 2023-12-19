@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOTP</title>
+</head>
+<body>
+    <h1>{{ page_title }}</h1>
+    <p>Clé secrète: {{ secret }}</p>
+    <p>Code OTP: {{ otp_code }}</p>
+    <p>Temps restant: <span id="time">{{ time }}</span></p>
+    <a href="/">Retour</a>
+    
+    
+    <script>
+        var time = '{{ time }}';
+        setInterval(function() {
+            time -= 1;
+            document.getElementById('time').innerHTML = time;
+            if (time == 0) {
+                location.reload();
+            }
+        }, 1000);
+    </script>
+    
+</body>
+</html>

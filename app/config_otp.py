@@ -1,5 +1,4 @@
-
-
+user_secrets = {}
 # otp params
 code_size = 6
 throttling_parameter = 8
