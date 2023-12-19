@@ -1,6 +1,6 @@
 user_secrets = {}
 # otp params
-OTP_HASH_FUNCTION = 'sha256'
+OTP_HASH_FUNCTION = 'sha1' # to be compliant with freeOTP app
 OTP_CODE_SIZE = 6
 # NB: this is public folder to ease the access to the QR code
 # don't do that in prod, send the QRcode in the POST response

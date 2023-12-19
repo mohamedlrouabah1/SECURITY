@@ -11,7 +11,16 @@
     <p>Clé secrète: {{ secret }}</p>
     <p>Code OTP: {{ otp_code }}</p>
     <p>Temps restant: <span id="time">{{ time }}</span></p>
-    <a href="/">Retour</a>
+
+    {% if side == 'client' %}
+    <img src="{{ url_for('static', filename='QRcodes/TOTP_qrcode.png') }}" alt="QR Code">
+    {% endif %}
+
+    <div>
+        <a href="/">Retour</a>
+    </div>
+
+    
     
     
     <script>

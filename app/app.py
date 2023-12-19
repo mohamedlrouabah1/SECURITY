@@ -37,6 +37,8 @@ def login():
         session['username'] = 'user1'
         return jsonify({'status': 'success'})
 
+    print(f"login with method : {request.method}")
+
     # Générer les codes HOTP et TOTP pour l'affichage
     user = session.get('username', 'user1')
     hotp = pyotp.HOTP(user_secrets[user]['HOTP'])

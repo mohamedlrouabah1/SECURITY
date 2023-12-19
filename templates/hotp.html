@@ -13,6 +13,9 @@
     <a href="/">Retour</a>
 
     {% if side == 'client' %}
+    <img src="{{ url_for('static', filename='QRcodes/HOTP_qrcode.png') }}" alt="QR Code">
+
+
     <form action="/increment-counter">
         <button type="submit">Incrémenter le compteur</button>
     </form>

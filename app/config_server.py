@@ -3,4 +3,4 @@ DIR_TEMPLATES = "../templates"
 DIR_STATICS = "../static"
 
 # wich function used to compute otop 
-VERSION_ALGO =   'perso' # 'pyotp' # 
+VERSION_ALGO =    'perso' # 'pyotp' #  
