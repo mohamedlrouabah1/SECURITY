@@ -43,7 +43,7 @@
     linkcolor=blue,
     filecolor=magenta,      
     urlcolor=cyan,
-    pdftitle={Intéropérabilité-AlpesTransport},
+    pdftitle={Sécurité - OTP},
     pdfpagemode=FullScreen,
     }
 \urlstyle{same}
@@ -218,10 +218,10 @@ Ce rapport introduit les différents concepts inhérents à \textcolor{mygreen}{
 %% définitions et introduction
 
     Un \textcolor{myblue}{mot de passe à usage unique}, désigné sous l'acronyme anglais \textcolor{myblue}{\otp} dans la suite de ce rapport, 
-est une séquence d'au moins \textcolor{mygreen}{six chiffres} ou caractère généré à partir d'une \textcolor{mygreen}{clé privé} et d'une \textcolor{mygreen}{donnée itérative}
+est une séquence d'au moins \textcolor{mygreen}{six chiffres} ou caractères générée à partir d'une \textcolor{mygreen}{clé privé} et d'une \textcolor{mygreen}{donnée itérative}
 afin de \textcolor{myblue}{valider une action} utilisateur comme par exemple une authentification ou une transaction bancaire. 
 
-    Ces codes sont soit généré avec une \textcolor{myblue}{application} dite 'authenticator' soit \textcolor{myblue}{envoyé} à l'utilisateur cherchant
+    Ces codes sont soit générés avec une \textcolor{myblue}{application} dite 'authenticator' soit \textcolor{myblue}{envoyés} à l'utilisateur cherchant
 à valider une action par courriel ou message. Ces codes sont donc générés par un moyen que \textcolor{mygreen}{seul l'utilisateur concerné possède}.\\
 
 
@@ -270,13 +270,13 @@ Les \otp sont couramment utilisés dans les validations bancaires et les transac
     \section{Exemple d'utilisation d'\otp dans le 2FA}
 
 
-    Comme expliqué dans l'introduction les \otp sont utilisé dans le \textcolor{myblue}{protocole de double authentification} 2FA visant à vérifier que \textcolor{mygreen}{l'utilisateur possède quelque chose} en plus de vérifier la connaissance de son mot de passe.\\
+    Comme expliqué dans l'introduction les \otp sont utilisés dans le \textcolor{myblue}{protocole de double authentification} 2FA visant à vérifier que \textcolor{mygreen}{l'utilisateur possède quelque chose} en plus de vérifier la connaissance de son mot de passe.\\
 
-    Dans cette partie nous allons ainsi nous intéressé aux \textcolor{myblue}{application 'authenticator'} permettant de générer des \otp en étudiant dans un premier temps quels sont les \textcolor{mygreen}{mécanismes} à mettre en place \textcolor{mygreen}{pour activer le 2FA}. 
+    Dans cette partie nous allons ainsi nous intéresser aux \textcolor{myblue}{applications 'authenticator'} permettant de générer des \otp en étudiant dans un premier temps quels sont les \textcolor{mygreen}{mécanismes} à mettre en place \textcolor{mygreen}{pour activer le 2FA}. 
     
     Puis, dans un second temps, nous verrons comment l'\otp permet de \textcolor{myblue}{valider l'authentification} de l'utilisateur dans le contexte du 2FA, et \textcolor{myblue}{les variantes} que constituent \textcolor{mygreen}{\hotp} et \textcolor{mygreen}{\totp} . 
     
-    Et enfin nous déduirons de ces exemples les paramètres à prendre en compte pour palier les \textcolor{myblue}{désynchronisation de génération d'\otp} entre le client et le serveur.
+    Et enfin nous déduirons de ces exemples les paramètres à prendre en compte pour palier les \textcolor{myblue}{désynchronisations de génération d'\otp} entre le client et le serveur.
 
 
         %% ***** Partage de seed ***** %%
@@ -286,20 +286,20 @@ Les \otp sont couramment utilisés dans les validations bancaires et les transac
 Ainsi lorsque l'utilisateur active le 2FA sur son compte le serveur va créer et \textcolor{mygreen}{communiquer une clé secrète} au client avant de lui même \textcolor{myblue}{stocker} cette valeur.
 Cette clé va servir de \textcolor{myblue}{graine}, ou seed en anglais, à la \textcolor{myblue}{génération d'\otp\ identiques} du côté du client et du serveur permettant à ce dernier d'attester l'identité du premier.\\
 
-    Le \textcolor{myblue}{partage} de cette clé secrète est réalisé à travers la génération d'un \textcolor{mygreen}{QRcode} par le serveur et le scanne de ce dernier par le client utilisant une application 'authenticator' comme freeOTP. L'exemple ci-dessous montre le contenus d'un exemple de QRcode généré pour activer le 2FA d'un compte github.\\
+    Le \textcolor{myblue}{partage} de cette clé secrète est réalisé à travers la génération d'un \textcolor{mygreen}{QRcode} par le serveur et le scanne de ce dernier par le client utilisant une application 'authenticator' comme freeOTP. L'exemple ci-dessous montre le contenu d'un exemple de QRcode généré pour activer le 2FA d'un compte github.\\
 
 
 \begin{figure}[H]
         \centering
         \includegraphics[scale=0.5]{img/1/1/qrcode.png}
         \includegraphics[scale=1]{img/1/1/qrcode-content.png}
-        \caption{Exemple de QRcode contenant une seed partagé par le serveur\\}
+        \caption{Exemple de QRcode contenant une seed partagée par le serveur\\}
         \label{fig:2fa-qrcode}
 \end{figure}
 
 
 \noindent
-Nous pouvons donc en déduire qu'une \textcolor{myblue}{url de partage de seed} pour l'algorithme \otp est constitué des éléments suivants:
+Nous pouvons donc en déduire qu'une \textcolor{myblue}{url de partage de seed} pour l'algorithme \otp est constituée des éléments suivants:
 \begin{itemize}
     \item un \textbf{protocole} : \textcolor{mygreen}{otpauth://}
     \item la \textbf{variante d'\otp} utilisée : /totp ou /hotp (expliqué dans la partie suivante)
@@ -318,7 +318,7 @@ Nous pouvons donc en déduire qu'une \textcolor{myblue}{url de partage de seed} 
         %% ***** génération et variantes d'otp ***** %%
         \subsection{Génération et variantes d'\otp}
 
-    Maintenant que le client et le serveur possèdent une \textcolor{mygreen}{donné commune}, ils leurs manquent un \textcolor{myblue}{moyen de créer des codes à usage unique} à partir de cette clé privée. Cela est le rôle de la \textcolor{mygreen}{donnée incrémentale}. La valeur de cette donnée dépend de la variante d'\otp choisie.
+    Maintenant que le client et le serveur possèdent une \textcolor{mygreen}{donnée commune}, ils leurs manquent un \textcolor{myblue}{moyen de créer des codes à usage unique} à partir de cette clé privée. Cela est le rôle de la \textcolor{mygreen}{donnée incrémentale}. La valeur de cette donnée dépend de la variante d'\otp choisie.
 
             \subsubsection{\hotp}
             
@@ -338,12 +338,12 @@ et utilise un \textcolor{mygreen}{compteur} comme donnée incrémentale.
 
 
 Ainsi l'algorithme \hotp nécessite une \textcolor{myblue}{synchronisation constante du compteur} entre le client et le serveur. 
-Néanmoins une \textcolor{myblue}{désynchronisation} peut se produire du fait que le client incrémente le compteur à chaque fois qu’il veut créer un code sans savoir s’il a été accepté par le serveur, c’est-à-dire que le serveur à lui aussi incrémenter son compteur.\\
+Néanmoins une \textcolor{myblue}{désynchronisation} peut se produire du fait que le client incrémente le compteur à chaque fois qu’il veut créer un code sans savoir s’il a été accepté par le serveur, c’est-à-dire que le serveur à lui aussi incrémenté son compteur.\\
 
 \begin{figure}[H]
         \centering
         \includegraphics[scale=0.80]{img/1/2/hotp-desync.drawio.png}
-        \caption{\hotp : exemple de désynchronisation\\}
+        \caption{\hotp : exemple de désynchronisation du compteur \hotp\\}
         \label{fig:hotp-desync}
 \end{figure}
 
@@ -363,11 +363,11 @@ Néanmoins une \textcolor{myblue}{désynchronisation} peut se produire du fait q
             \subsubsection{\totp}
 
     La deuxième variante d'\otp est appelé \totp 
-qui est l'acronyme de \textcolor{myblue}{'Time-based \otp'} et qui se traduit par '\otp basé sur le temps'. Il utilise donc un timestamp, plus particulièrement \textcolor{mygreen}{le temps `\textsc{unix}} correspondant au nombre de secondes écoulé depuis le premier janvier 1970, comme donnée incrémentale. 
+qui est l'acronyme de \textcolor{myblue}{'Time-based \otp'} et qui se traduit par '\otp basé sur le temps'. Il utilise donc un timestamp, plus particulièrement \textcolor{mygreen}{le temps `\textsc{unix}} correspondant au nombre de secondes écoulées depuis le premier janvier 1970, comme donnée incrémentale. 
 
-Le temps \textsc{unix} à été choisi car il est disponible sur la grande majorité des appareils qui tourne sous linux, et en particulier les téléphones mobiles androïde et apple qui sont utilisé dans la plupart des cas.\\
+Le temps \textsc{unix} à été choisi car il est disponible sur la grande majorité des appareils qui tourne sous linux, et en particulier les téléphones mobiles androïde et apple qui sont utilisés dans la plupart des cas.\\
 
-Le \textcolor{myblue}{délai temporel} nécessaire pour générer un nouveau code est généralement fixé à \textcolor{mygreen}{30 secondes} et commence au début d'une nouvelle minute précise. Par exemple, pour les instants de génération, le premier code est associé à 00:00, le deuxième à 00:30, le troisième à 01:00, et ainsi de suite. Ainsi, lorsque l'algorithme doit générer un nouveau code, il \textcolor{myblue}{arrondit le temps vers le bas} jusqu'à l'instant le plus proche marqué par les secondes \textcolor{myblue}{00 ou 30}.
+Le \textcolor{myblue}{délai temporel} nécessaire pour générer un nouveau code est généralement fixé à \textcolor{mygreen}{30 secondes} et commence au début d'une nouvelle minute précise. Par exemple, pour les instants de génération, le premier code est associé à \texttt{00:00}, le deuxième à \texttt{00:30}, le troisième à \texttt{01:00}, et ainsi de suite. Ainsi, lorsque l'algorithme doit générer un nouveau code, il \textcolor{myblue}{arrondit le temps vers le bas} jusqu'à l'instant le plus proche marqué par les secondes \textcolor{myblue}{00 ou 30}.
 
 
     De ce fait le client et le serveur utilisent le temps courant de leur système arrondis afin de générer un \otp, comme l'illustre le schéma ci-dessous
@@ -396,7 +396,7 @@ En effet, un code valide à son envoie \textcolor{myblue}{n'est pas garantie d'�
 \end{figure}
 
     
-    Ainsi on peut définir une \textcolor{mygreen}{marge temporelle} afin que le serveur compare aussi le code \otp reçus avec le code \otp précèdent
+    On peut donc définir une \textcolor{mygreen}{marge temporelle} afin que le serveur compare aussi le code \otp reçu avec le code \otp précèdent
 qui rentre dans la marge temporelle, afin de rendre l'utilisation du protocole d'authentification plus fluide pour le client.
 
 
@@ -420,7 +420,7 @@ mais va rallonger le processus de resynchronisation. Ce paramètre n est \textco
 \end{figure}
 
 
-    Finalement, si la \textcolor{myblue}{resynchronisation est un succès}, c'est à dire les n codes généré par le client ont été validés par le client, 
+    Finalement, si la \textcolor{myblue}{resynchronisation est un succès}, c'est à dire les n codes générés par le client ont été validés par le client, 
 le serveur peut \textcolor{mygreen}{mettre à jour son compteur} par rapport au dernier \otp reçu.
 
 Dans le cas où la \textcolor{myblue}{resynchronisation est un échec} le serveur ne met pas son compteur à jour et \textcolor{mygreen}{attend de nouveau un \otp}
@@ -439,11 +439,11 @@ attivité suspecte de connexion a été détectée.
     Il est intéressant de noter que l'utilisation d'\otp peut aussi permettre d'effectuer une \textcolor{myblue}{authentification bidirectionnelle}
 permettant au client et au serveur de  \textcolor{mygreen}{vérifier leurs identités mutuellement}. 
 
-En effet, en vérifiant chacun leurs tour un \otp reçue de l'autre partie, ils vont chacun pouvoir \textcolor{myblue}{attester de la connaissance
+En effet, en vérifiant chacun leurs tour un \otp reçue de l'autre partie, ils vont respectivement pouvoir \textcolor{myblue}{attester de la connaissance
 de la clé privé par chacun}.
 
 Ce protocole d'authentification bi-directionnelle se compose donc des étapes suivantes 
-(en supposant que le client et le serveur ne présente pas de problèmes de synchronisation traités ci-dessus) :
+(en supposant que le client et le serveur ne présentent pas de problèmes de synchronisation traités ci-dessus) :
 \begin{enumerate}
     \item Le client génère \textcolor{red}{OTP-C1} et l'envoie au serveur
     \item Le serveur reçoit \textcolor{red}{OTP-C1} et génère \textcolor{red}{OPT-S1},
@@ -490,10 +490,10 @@ Ce protocole d'authentification bi-directionnelle se compose donc des étapes su
 
     La seed est une \textcolor{myblue}{donnée privée} connu uniquement du client et du serveur dont la \textbf{\textcolor{myblue}{création}}, la \textbf{\textcolor{myblue}{communication}} et le \textbf{\textcolor{myblue}{stockage}} vont être des points critiques à la \textcolor{mygreen}{sécurité de l’algorithme}. 
 Il est conseillé de prendre une \textcolor{myblue}{clé de même taille que la sortie de la fonction de hachage} utilisée par la méthode \hmac pour garantir l’\textcolor{mygreen}{interopérabilité} entre les systèmes, 
-c'est à dire utilisé une taille fixe qui ne dépend pas de la représentation d'un type (int, float, char, ...) faîte par un système et ainsi limiter les problèmes de compatibilité
+c'est à dire utiliser une taille fixe qui ne dépend pas de la représentation d'un type (int, float, char, ...) faîte par un système et ainsi limiter les problèmes de compatibilité
 sous-jacent.
 
-Voici des exemple de taille de clé conseillé selon la fonction de hachage donnée en paramètre de la méthode \hmac :
+Voici des exemple de taille de clé conseillés selon la fonction de hachage donnée en paramètre de la méthode \hmac :
 \begin{description}
     \item[SHA-1] 160 bits
     \item[SHA-256] 256 bits
@@ -525,17 +525,17 @@ Tandis que les générateurs basés sur des \textcolor{mygreen}{algorithmes de p
 
 \paragraph*{Génération déterministe\\}
 
-La deuxième méthode est elle aussi divisé en deux catégories.
+La deuxième méthode est elle aussi divisée en deux catégories.
 
 Soit on va utiliser une \textcolor{myblue}{unique Master Key} \textcolor{mygreen}{($MK$)} générée avec une méthode évoquée précédemment afin d’en \textcolor{myblue}{dériver une seed} pour chaque client,
 en utilisant une \textcolor{mygreen}{donnée publique} de ce dernier comme par exemple un numéro de série \textcolor{mygreen}{($i$)}.
-La seed est ensuite calculé en faisant un XOR entre la master key et la donnée client, puis en calculant le hash de cette valeur.
+La seed est ensuite calculée en faisant un XOR entre la master key et la donnée client, puis en calculant le hash de cette valeur.
 \textcolor{red}{$$
     k_i = SHA-1(MK \oplus i)
 $$}
 
 Soit on utilise \textcolor{myblue}{une Master Key par client} \textcolor{mygreen}{($MK_i$)} et on utilise également une donnée \textcolor{mygreen}{$j$} du client pour \textcolor{myblue}{dériver une seed}.
-Chaque appareil est donc associé à un couple \textcolor{mygreen}{$(i,j)$} afin de retrouver la seed associée.
+Chaque client est donc associé à un couple \textcolor{mygreen}{$(i,j)$} afin de retrouver la seed associée.
 \textcolor{red}{$$
 k_{ij} = SHA-1(MK_i \oplus j)
 $$}
@@ -705,7 +705,7 @@ On calcule ensuite le modulo 6 de cette valeur : $ 144938555 \text{ mod } 10^6 =
 
     Pour réaliser ce prototype nous avons choisi d'utiliser \textcolor{mygreen}{python} et la \textcolor{mygreen}{librairie flask} pour le frontend. Dans un premier temps, La librairie \textcolor{mygreen}{pyotp} qui implémente l'algorithme \otp a été utilisé pour accélérer le développement, puis nous avons décider de créer \textbf{\textcolor{mygreen}{notre propre implémentation de l'algorithme \otp}} selon les étapes expliqués dans la partie précédente.\\
 
-    Cette section vise donc à expliquer les \textbf{choix de conceptions} réalisés pour l'implémentation de l'algorithme et de montrer au lecteur comment \textcolor{myblue}{mettre en place une authentification à double facteurs} dans une application, dont les captures d'écran des différentes pages peuvent être consulté dans l'annexe-\ref{ann:app}.
+    Cette section vise donc à expliquer les \textbf{choix de conception} réalisés pour l'implémentation de l'algorithme et de montrer au lecteur comment \textcolor{myblue}{mettre en place une authentification à double facteurs} dans une application, dont les captures d'écran des différentes pages peuvent être consulté dans l'annexe-\ref{ann:app}.
 
 
 
@@ -722,11 +722,11 @@ Le dossier '/app' contient le code source de l'application organisé comme suit 
     \item[config\_\*.py]
     Ces fichiers contiennent des \textcolor{myblue}{paramètres globaux} de l'application telle que la taille des codes \otp générés.
     \item[helpers.py]
-    Ce fichier contient les méthods générales pour créer les pages d'\textcolor{myblue}{affichages d'information} aussi bien pour le serveur que pour le client, ce qui nous permet d'éviter la redondance de code.
+    Ce fichier contient les méthodes générales pour créer les pages d'\textcolor{myblue}{affichage d'informations} aussi bien pour le serveur que pour le client, ce qui nous permet d'éviter la redondance de code.
     \item[myOTP.py]
-    Ce fichier contient l'\textcolor{myblue}{implémentation personnelle} de génération de code \otp\ , c'est à dire les fonctions \textcolor{mygreen}{hmac}, \textcolor{mygreen}{troncation}, et la \textcolor{mygreen}{gestion du pas temporelle} de 30 secondes pour les \totp\ .
+    Ce fichier contient l'\textcolor{myblue}{implémentation personnelle} de génération de codes \otp\ , c'est à dire les fonctions \textcolor{mygreen}{hmac}, \textcolor{mygreen}{troncation}, et la \textcolor{mygreen}{gestion du pas temporelle} de 30 secondes pour les \totp\ .
     \item[share\_\ seed.py]
-    Ce fichier contient les fonctions de \textcolor{myblue}{génération de QRcode} afin de partager la seed à une application comme \textcolor{mygreen}{freeOTP Authenticator-\ref{fig:freeotp}} afin que l'utilisateur puisse générer ses codes sur son propre appareil.
+    Ce fichier contient les fonctions de \textcolor{myblue}{génération de QRcode} afin de partager la seed à une application comme \textcolor{mygreen}{freeOTP Authenticator-\ref{fig:freeotp}} pour que l'utilisateur puisse générer ses codes sur son propre appareil.
     \item[/client et /server] 
     Ces répertoires contiennent la logique pour les url respectives '/client/' et '/server'.\\
 \end{description}
@@ -744,7 +744,7 @@ Le projet contient aussi des fichiers spécifiques au déploiements listés ci-d
     %% ***** pyotp ***** %%
     \subsection{Utilisation de pyotp}
 
-La librairie \textbf{pyotp} est utilisé pour générer les seed avec la fonction \textbf{random\_base32} qui selon la documentation effectue un tirage aléatoire dans une liste prédéfinie afin d'obtenir une seed.
+La librairie \textbf{pyotp} est utilisée pour générer les seed avec la fonction \textbf{random\_base32} qui selon la documentation effectue un tirage aléatoire dans une liste prédéfinie afin d'obtenir une séquence aléatoire.
 
 \begin{figure}[H]
         \centering
@@ -757,13 +757,13 @@ La librairie \textbf{pyotp} est utilisé pour générer les seed avec la fonctio
     %% ***** implémentation personnelle ***** %%
     \subsection{Implémentation personnelle de l'algorithme \otp}
 
-Cette section présente une \textbf{capture d'écran des fonctions implémentées} pour la réalisation d'un algorithme générant des \totp et \hotp en python afin de les répertoriées dans ce rapport et \textbf{rendre leurs consultation plus accessible}. Ainsi elle n'apportera pas plus d'explication par rapport aux explications précédentes et aux commentaires présent dans le code.
+Cette section présente des \textbf{captures d'écran des fonctions implémentées} pour la réalisation d'un algorithme générant des \totp et \hotp en python afin de les répertorier dans ce rapport et \textbf{rendre leurs consultation plus accessible}. Ainsi elle n'apportera pas plus d'explications par rapport aux explications précédentes et aux commentaires présent dans le code.
 
 
 \begin{figure}[H]
         \centering
         \includegraphics[scale=0.8]{img/C_proto/code/code_share_seed.png}
-        \caption{Création d'un uri et d'un QRcode pour le partage de la seed\\}
+        \caption{Création d'une URI et d'un QRcode pour le partage de la seed\\}
         \label{fig:code-round-time}
 \end{figure}
 
@@ -813,7 +813,7 @@ Cette section présente une \textbf{capture d'écran des fonctions implémentée
 \end{figure}
 
 
-    
+\newpage
     %% ***** mise en place du 2FA ***** %%
     \subsection{Mise en place du 2FA dans une application}
 
@@ -846,11 +846,13 @@ Pour conclure, \otp est largement adopté et \textcolor{myblue}{utilisé pour va
 \begin{itemize}
     \item	Faille sécurité partage de la seed
     \item	Faille pour le partage via SMS/mail (fishing, interception de SMS)
-    \item	Code de 6 chiffres => brute force si pas de limite de tmps fixé (généralement double le temps d’attente à chaque code erroné)
-    \item	Vols de recovery codes (code donnée à l'utilisateur après l'activation du 2FA pour le bypass avec un de ces codes en cas de perte de sa possession) 
+    \item	Code de 6 chiffres => brute force si pas de limite de temps fixé (généralement double le temps d’attente à chaque code erroné)
+    \item	Vols de recovery codes (codes donnés à l'utilisateur après l'activation du 2FA pour outrepasser cette étape avec un de ces codes en cas de perte de sa possession) 
 \end{itemize}
 
-Il est donc conseillé de fixer un \textcolor{mygreen}{paramètre d’étranglement} pour limiter le nombre de tentatives autorisées par utilisateur. Ou alors un \textcolor{mygreen}{schéma de délais} pour qu'après chaque tentative de connexion, le serveur attend \textcolor{mygreen}{A*T secondes} pour répondre (T souvent 5s).
+Il est donc conseillé de fixer un \textcolor{mygreen}{paramètre d’étranglement} pour limiter le nombre de tentatives autorisées par utilisateur. 
+
+Ou alors un \textcolor{mygreen}{schéma de délais} pour qu'après chaque tentative de connexion, le serveur attend \textcolor{mygreen}{A*T secondes} pour répondre (T souvent 5s).
 
 
 On estime la sécurité de l'algorithme \otp mis en place avec la formule suivante :
@@ -963,7 +965,7 @@ Ingénierie sociale & Manipulation des utilisateurs pour divulguer leurs \otp en
 \pagenumbering{roman} % Retour à la numérotation arabe pour le reste du document
 \setcounter{page}{1} % Réinitialisation du compteur de page à 1
 
-`\section{Vocabulaire}
+    \section{Vocabulaire}
 
 \begin{center}
     \begin{tabular}{|m{3cm}|m{8cm}|}
@@ -1002,13 +1004,6 @@ Ingénierie sociale & Manipulation des utilisateurs pour divulguer leurs \otp en
 
 
 
-
-
-
-
-
-
-\newpage
 \section{Références}
 
 % Ajuste la hauteur des lignes dans le tableau
