@@ -2,6 +2,9 @@ import pyotp
 import time
 from flask import render_template
 from config_otp import user_secrets
+from config_server import VERSION_ALGO
+from myOTP import generate_personnal_totp
+
 
 def generate_totp_page(user, page_title):
     """
@@ -11,12 +14,17 @@ def generate_totp_page(user, page_title):
         page_title : str
             Title of the page depending on which side we are.
     """
-    totp = pyotp.TOTP(user_secrets[user]['TOTP'])
-    otp_code = totp.now()
+    if VERSION_ALGO == 'perso' :
+        totp = generate_personnal_totp(user,user_secrets[user]['TOTP'])
+    else :
+        totp = pyotp.TOTP(
+            user_secrets[user]['TOTP'], interval=60
+            ).now()
+
     return render_template('totp.html', 
         page_title=page_title, 
         secret=user_secrets[user]['TOTP'], 
-        otp_code=otp_code, 
+        otp_code=totp, 
         time=30 - int(time.time() % 30)
         )
 
