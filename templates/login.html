@@ -18,11 +18,23 @@
 <body>
     <div class="container">
         <h2>Login</h2>
+
+        {% if valid is defined %}
+
+        {% if valid %}
+        <h3 style="color : green">Connexion réussie avec OTP valide!</h3>
+        {% else %}
+        <h3 style="color : red">Connexion échouée avec OTP invalide!</h3>
+        {% endif %}
+        {% endif %}
+        
+        {% if not valid %}
         <form id="login-form">
             <input type="text" name="username" placeholder="Username" required>
             <input type="password" name="password" placeholder="Password" required>
             <button type="submit">Login</button>
         </form>
+        {% endif %}
     </div>
 
     <div id="otpModal" class="modal">
