@@ -7,7 +7,7 @@ def generate_otp_qrcode(user, debbug=False):
     for type in ['TOTP', 'HOTP']:
         seed = user_secrets[user][type]
         t = type.lower()
-        otp_uri[type] = f'otpauth://{t}/{user}{type}?secret={seed}&issuer={OTP_ISSUER}'
+        otp_uri[type] = f'otpauth://{t}/{user}?secret={seed}&issuer={OTP_ISSUER}'
         print(otp_uri[type])
 
     # Générer le QR code
