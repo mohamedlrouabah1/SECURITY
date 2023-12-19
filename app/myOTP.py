@@ -16,7 +16,7 @@ def get_rounded_time_to_nearest_half_minute():
     return int(int(time.time()) // 30)
 
 
-def generate_personnal_totp(user, key:str, code_length:int=6, hash_algorithm:str='sha1') -> int:
+def generate_personnal_totp(user, key:str, code_length:int=6, hash_algorithm:str='sha256') -> int:
     """
     Generate an OTP code for the given key and counter.
 
@@ -38,7 +38,7 @@ def generate_personnal_totp(user, key:str, code_length:int=6, hash_algorithm:str
     return totp
 
 
-def generate_personnal_hotp(user, key:str, counter:int=0, code_length:int=6, hash_algorithm:str='sha1') -> int:
+def generate_personnal_hotp(user, key:str, counter:int, code_length:int=6, hash_algorithm:str='sha1') -> int:
     """
     Generate an OTP code for the given key and counter.
 
