@@ -39,19 +39,9 @@ def login():
 
     print(f"login with method : {request.method}")
 
-    # Générer les codes HOTP et TOTP pour l'affichage
-    user = session.get('username', 'user1')
-    hotp = pyotp.HOTP(user_secrets[user]['HOTP'])
-    totp = pyotp.TOTP(user_secrets[user]['TOTP'])
-    hotp_code = hotp.at(user_secrets[user]['HOTP_counter'])
-    totp_code = totp.now()
-
     generate_otp_qrcode('user1')
 
-    return render_template(f'login.html', 
-        hotp_code=hotp_code, 
-        totp_code=totp_code
-        )
+    return render_template(f'login.html')
 
 
 @app.route('/validate-otp')
@@ -86,11 +76,7 @@ def validate_otp():
     else:
         valid = False
 
-    return render_template(f'login.html', 
-        hotp_code=1, 
-        totp_code=1,
-        valid=valid
-        )
+    return render_template(f'login.html', valid=valid)
 
 # give code to generate a htop page for client and server with a button to increment the counter and htop code change(in client page the server side automatiquely increment), also give some style display both client and server in same page
 @app.route('/increment-counter')

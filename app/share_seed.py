@@ -1,13 +1,13 @@
 import qrcode
 from config_otp import user_secrets, OTP_QRCODE_DIR, OTP_ISSUER
 
-def generate_otp_qrcode(user):
+def generate_otp_qrcode(user, debbug=False):
     otp_uri = {}
     
     for type in ['TOTP', 'HOTP']:
         seed = user_secrets[user][type]
         t = type.lower()
-        otp_uri[type] = f'otpauth://{t}/{user}:{t}?secret={seed}&issuer={OTP_ISSUER}'
+        otp_uri[type] = f'otpauth://{t}/{user}{type}?secret={seed}&issuer={OTP_ISSUER}'
         print(otp_uri[type])
 
     # Générer le QR code
@@ -27,5 +27,5 @@ def generate_otp_qrcode(user):
         # to be sent in the POST response
         img.save(f'{OTP_QRCODE_DIR}/{type}_qrcode.png')
 
-        # debbug
-        img.show()
+        if debbug:
+            img.show()
