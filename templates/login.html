@@ -39,6 +39,20 @@
         </div>
     </div>
 
+    <div>
+        Utilisation : <br />
+        L'accès à la page '/' ou '/login' génère de nouvelles seed pour les codes OTP. <br />
+        Pour accéder aux otp stockés côté serveur : /server/totp ou /serveur/hotp <br />
+        Pour accéder aux otp stockés côté client : /client/totp ou /client/hotp <br />
+        Les TOTP sont mis à jour toutes les 30 secondes. <br />
+        <br />
+
+        Les pages /client/{totp, hotp} contiennent un QRcode qui peut être scanné
+        sur une application mobile Authenticator. <br />
+        L'application <a href="https://play.google.com/store/apps/details?id=org.fedorahosted.freeotp&hl=fr&gl=US">'freeOTP Authenticator'</a>  a été testé avec succès à cet effet. <br />
+        (Nous utilisons la fonction sha-256 pour générer les mots de passe à 6 chiffres)
+    </div>
+
     <script>
         document.getElementById('login-form').addEventListener('submit', function(event) {
             event.preventDefault();
